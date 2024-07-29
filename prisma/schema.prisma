@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Borrower {
+  id          String        @id @default(cuid())
+  name        String
+  borrowDate  DateTime
+  bok         Bok[]
+  dvd         DVD[]
+  Ljudbok     Ljudbok[]
+  Uppslagsbok Uppslagsbok[]
+}
+
+model Category {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  bok         Bok[]
+  dvd         DVD[]
+  Ljudbok     Ljudbok[]
+  Uppslagsbok Uppslagsbok[]
+}
+
+model Bok {
+  id           String    @id @default(cuid())
+  title        String    @unique
+  author       String
+  nbrPage      Int
+  type         Category  @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  isBorrowable Boolean   @default(true)
+  borrower     Borrower? @relation(fields: [borrowerId], references: [id])
+
+  borrowerId String?
+}
+
+model DVD {
+  id             String @id @default(cuid())
+  title          String @unique
+  runTimeMinutes Int
+
+  type         Category @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  isBorrowable Boolean  @default(true)
+
+  borrower Borrower? @relation(fields: [borrowerId], references: [id])
+
+  borrowerId String?
+}
+
+model Ljudbok {
+  id    String   @id @default(cuid())
+  title String   @unique
+  type  Category @relation(fields: [categoryId], references: [id])
+
+  categoryId String
+
+  isBorrowable Boolean   @default(true)
+  borrower     Borrower? @relation(fields: [borrowerId], references: [id])
+  borrowerId   String?
+}
+
+model Uppslagsbok {
+  id           String    @id @default(cuid())
+  title        String    @unique
+  author       String
+  nbrPages     Int
+  type         Category  @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  isBorrowable Boolean   @default(false)
+  Borrower     Borrower? @relation(fields: [borrowerId], references: [id])
+  borrowerId   String?
+}
