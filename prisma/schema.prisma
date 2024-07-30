@@ -14,30 +14,30 @@ datasource db {
 }
 
 model Borrower {
-  id          String        @id @default(cuid())
-  name        String
-  borrowDate  DateTime
-  bok         Bok[]
-  dvd         DVD[]
-  Ljudbok     Ljudbok[]
-  Uppslagsbok Uppslagsbok[]
+  id         String      @id @default(cuid())
+  name       String
+  borrowDate DateTime
+  book       Book[]
+  dvd        Dvd[]
+  audioBook  AudioBook[]
 }
 
 model Category {
-  id          String        @id @default(cuid())
-  name        String        @unique
-  bok         Bok[]
-  dvd         DVD[]
-  Ljudbok     Ljudbok[]
-  Uppslagsbok Uppslagsbok[]
+  id            String          @id @default(cuid())
+  name          String          @unique
+  book          Book[]
+  dvd           Dvd[]
+  audiobook     AudioBook[]
+  referenceBook ReferenceBook[]
 }
 
-model Bok {
+model Book {
   id           String    @id @default(cuid())
-  title        String    @unique
+  title        String
   author       String
-  nbrPage      Int
-  type         Category  @relation(fields: [categoryId], references: [id])
+  nbrPages     Int
+  type         String
+  category     Category  @relation(fields: [categoryId], references: [id])
   categoryId   String
   isBorrowable Boolean   @default(true)
   borrower     Borrower? @relation(fields: [borrowerId], references: [id])
@@ -45,12 +45,13 @@ model Bok {
   borrowerId String?
 }
 
-model DVD {
+model Dvd {
   id             String @id @default(cuid())
-  title          String @unique
+  title          String
   runTimeMinutes Int
 
-  type         Category @relation(fields: [categoryId], references: [id])
+  type         String
+  catgory      Category @relation(fields: [categoryId], references: [id])
   categoryId   String
   isBorrowable Boolean  @default(true)
 
@@ -59,10 +60,13 @@ model DVD {
   borrowerId String?
 }
 
-model Ljudbok {
-  id    String   @id @default(cuid())
-  title String   @unique
-  type  Category @relation(fields: [categoryId], references: [id])
+model AudioBook {
+  id             String @id @default(cuid())
+  title          String
+  runTimeMinutes Int
+  type           String
+
+  category Category @relation(fields: [categoryId], references: [id])
 
   categoryId String
 
@@ -71,14 +75,13 @@ model Ljudbok {
   borrowerId   String?
 }
 
-model Uppslagsbok {
-  id           String    @id @default(cuid())
-  title        String    @unique
+model ReferenceBook {
+  id           String   @id @default(cuid())
+  title        String
   author       String
   nbrPages     Int
-  type         Category  @relation(fields: [categoryId], references: [id])
+  type         String
+  category     Category @relation(fields: [categoryId], references: [id])
   categoryId   String
-  isBorrowable Boolean   @default(false)
-  Borrower     Borrower? @relation(fields: [borrowerId], references: [id])
-  borrowerId   String?
+  isBorrowable Boolean  @default(false)
 }
