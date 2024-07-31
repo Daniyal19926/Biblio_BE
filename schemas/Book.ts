@@ -5,6 +5,7 @@ const schema = z.object({
   nbrPages: z.number(),
   type: z.string(),
   isBorrowable: z.boolean().optional(),
+  borrowerId: z.string().optional(),
   categoryId: z.string().cuid(),
 });
 

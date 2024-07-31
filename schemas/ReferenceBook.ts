@@ -1,14 +1,14 @@
 import { z } from "zod";
 const schema = z.object({
   title: z.string(),
-  runTimeMinutes: z.number(),
+  author: z.string(),
+  nbrPages: z.number(),
   type: z.string(),
   isBorrowable: z.boolean().optional(),
-  borrowerId: z.string().optional(),
   categoryId: z.string().cuid(),
 });
 
-export type AudioBook = z.infer<typeof schema>;
-export function validate(body: AudioBook) {
+export type ReferenceBook = z.infer<typeof schema>;
+export function validate(body: ReferenceBook) {
   return schema.safeParse(body);
 }

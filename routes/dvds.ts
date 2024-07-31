@@ -35,7 +35,8 @@ router.put("/:id", async (req, res) => {
       runTimeMinutes: req.body.runTimeMinutes,
       type: req.body.type,
       categoryId: req.body.categoryId,
-      borrowerId: req.body.borrowerId || undefined,
+      isBorrowable: req.body.isBorrowable,
+      borrowerId: req.body.borrowerId,
     },
     include: { catgory: true },
   });
@@ -51,6 +52,10 @@ router.post("/", async (req, res) => {
     where: { id: req.body.categoryId },
   });
   if (!category) return res.status(400).send("category does not exist");
+  const existingDvd = await prisma.dvd.findFirst({
+    where: { title: req.body.title },
+  });
+  if (existingDvd) return res.status(400).send("dvd already exists");
   const dvd = await prisma.dvd.create({
     data: {
       title: req.body.title,

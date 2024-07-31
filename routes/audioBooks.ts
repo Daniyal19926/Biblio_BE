@@ -41,10 +41,12 @@ router.put("/:id", async (req, res) => {
       runTimeMinutes: req.body.runTimeMinutes,
       type: req.body.type,
       categoryId: req.body.categoryId,
-      borrowerId: req.body.borrowerId || undefined,
+      isBorrowable: req.body.isBorrowable,
+      borrowerId: req.body.borrowerId,
     },
     include: { category: true },
   });
+  console.log(updatedAudioBook);
   return res.status(200).send(updatedAudioBook);
 });
 
@@ -57,6 +59,11 @@ router.post("/", async (req, res) => {
     where: { id: req.body.categoryId },
   });
   if (!category) return res.status(400).send("category does not exist");
+  const existingAudioBook = await prisma.audioBook.findFirst({
+    where: { title: req.body.title },
+  });
+  if (existingAudioBook)
+    return res.status(400).send("audioBook already exists");
   const audioBook = await prisma.audioBook.create({
     data: {
       title: req.body.title,

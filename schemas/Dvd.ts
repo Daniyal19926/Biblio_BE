@@ -4,6 +4,7 @@ const schema = z.object({
   runTimeMinutes: z.number(),
   type: z.string(),
   isBorrowable: z.boolean().optional(),
+  borrowerId: z.string().optional(),
   categoryId: z.string().cuid(),
 });
 
