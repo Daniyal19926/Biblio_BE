@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import categories from "./routes/categories";
 import books from "./routes/books";
 import dvds from "./routes/dvds";
+import audioBooks from "./routes/audioBooks";
 
 const app = express();
 
@@ -11,3 +12,4 @@ app.use(express.json());
 app.use("/api/categories", categories);
 app.use("/api/books", books);
 app.use("/api/dvds", dvds);
+app.use("/api/audioBooks", audioBooks);
