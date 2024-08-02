@@ -5,14 +5,14 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-  const dvds = await prisma.dvd.findMany({ include: { catgory: true } });
+  const dvds = await prisma.dvd.findMany({ include: { category: true } });
   return res.status(200).send(dvds);
 });
 
 router.get("/:id", async (req, res) => {
   const dvd = await prisma.dvd.findFirst({
     where: { id: req.params.id },
-    include: { catgory: true },
+    include: { category: true },
   });
   if (!dvd) return res.status(400).send("dvd with given id not found");
   return res.status(200).send(dvd);
@@ -38,7 +38,7 @@ router.put("/:id", async (req, res) => {
       isBorrowable: req.body.isBorrowable,
       borrowerId: req.body.borrowerId,
     },
-    include: { catgory: true },
+    include: { category: true },
   });
   return res.status(200).send(updatedDvd);
 });
@@ -64,7 +64,7 @@ router.post("/", async (req, res) => {
       categoryId: req.body.categoryId,
     },
     include: {
-      catgory: true,
+      category: true,
     },
   });
   return res.status(201).send(dvd);
@@ -76,7 +76,7 @@ router.delete("/:id", async (req, res) => {
 
   const deletedDvd = await prisma.dvd.delete({
     where: { id: req.params.id },
-    include: { catgory: true },
+    include: { category: true },
   });
   return res.status(200).send(deletedDvd);
 });

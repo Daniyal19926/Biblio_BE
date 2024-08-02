@@ -36,7 +36,7 @@ model Book {
   title        String
   author       String
   nbrPages     Int
-  type         String
+  type         String    @default("book")
   category     Category  @relation(fields: [categoryId], references: [id])
   categoryId   String
   isBorrowable Boolean   @default(true)
@@ -50,8 +50,8 @@ model Dvd {
   title          String
   runTimeMinutes Int
 
-  type         String
-  catgory      Category @relation(fields: [categoryId], references: [id])
+  type         String   @default("dvd")
+  category     Category @relation(fields: [categoryId], references: [id])
   categoryId   String
   isBorrowable Boolean  @default(true)
 
@@ -64,7 +64,7 @@ model AudioBook {
   id             String @id @default(cuid())
   title          String
   runTimeMinutes Int
-  type           String
+  type           String @default("audioBook")
 
   category Category @relation(fields: [categoryId], references: [id])
 
@@ -80,7 +80,7 @@ model ReferenceBook {
   title        String
   author       String
   nbrPages     Int
-  type         String
+  type         String   @default("referenceBook")
   category     Category @relation(fields: [categoryId], references: [id])
   categoryId   String
   isBorrowable Boolean  @default(false)
