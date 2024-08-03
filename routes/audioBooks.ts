@@ -46,7 +46,6 @@ router.put("/:id", async (req, res) => {
     },
     include: { category: true },
   });
-  console.log(updatedAudioBook);
   return res.status(200).send(updatedAudioBook);
 });
 
