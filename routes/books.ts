@@ -25,8 +25,10 @@ router.put("/:id", async (req, res) => {
     where: { id: req.body.categoryId },
   });
   if (!category) return res.status(400).send("category not found");
+
   const updatedBook = await prisma.book.update({
     where: { id: req.params.id },
+
     data: {
       author: req.body.author,
       title: req.body.title,
@@ -34,11 +36,12 @@ router.put("/:id", async (req, res) => {
       type: req.body.type,
       categoryId: req.body.categoryId,
       isBorrowable: req.body.isBorrowable,
-      borrowerId: req.body.borrowerId,
+      borrowerName: req.body.borrowerName,
+      borrowDate: req.body.borrowDate,
     },
     include: { category: true },
   });
-  return res.status(200).send(updatedBook);
+  return res.status(200).send("ok");
 });
 router.post("/", async (req, res) => {
   const validation = validate(req.body);

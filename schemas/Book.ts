@@ -4,8 +4,7 @@ const schema = z.object({
   author: z.string(),
   nbrPages: z.number(),
   type: z.string(),
-  isBorrowable: z.boolean().optional(),
-  borrowerId: z.string().optional(),
+  borrowerName: z.string().optional(),
   categoryId: z.string().cuid(),
 });
 

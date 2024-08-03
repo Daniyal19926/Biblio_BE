@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
   const audioBooks = await prisma.audioBook.findMany({
-    include: { category: true, borrower: true },
+    include: { category: true },
   });
   return res.status(200).send(audioBooks);
 });
@@ -42,7 +42,7 @@ router.put("/:id", async (req, res) => {
       type: req.body.type,
       categoryId: req.body.categoryId,
       isBorrowable: req.body.isBorrowable,
-      borrowerId: req.body.borrowerId,
+      borrowerName: req.body.borrowerName,
     },
     include: { category: true },
   });

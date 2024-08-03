@@ -36,7 +36,8 @@ router.put("/:id", async (req, res) => {
       type: req.body.type,
       categoryId: req.body.categoryId,
       isBorrowable: req.body.isBorrowable,
-      borrowerId: req.body.borrowerId,
+      borrowerName: req.body.borrowerName,
+      borrowDate: req.body.borrowDate,
     },
     include: { category: true },
   });
